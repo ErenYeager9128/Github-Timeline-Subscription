@@ -4,20 +4,9 @@ A powerful PHP-based email subscription platform where users register using emai
 
 ---
 
-## 📦 Project Structure
+## 🌐 Live Flow
 
-📁 src/
-├── index.php # Main form (email + OTP verification)
-├── subscribe.php # Handles email registration logic
-├── unsubscribe.php # Handles unsubscription flow
-├── cron.php # Sends GitHub updates every 5 mins
-├── setup_cron.sh # Registers the cron job
-├── functions.php # All logic & mailer functions
-├── registered_emails.txt # Flat file DB for verified emails
-
-yaml
-Copy
-Edit
+> ✉️ Email ➜ 🔐 Verify OTP ➜ ✅ Subscribed ➜ 🔄 Every 5min GitHub Updates ➜ 🔗 Unsubscribe (with OTP)
 
 ---
 
