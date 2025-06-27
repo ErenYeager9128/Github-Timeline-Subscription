@@ -1,115 +1,82 @@
-# 🚀 GH-Timeline — Real-Time GitHub Timeline Email Updates
+# 🚀 GH-Timeline — GitHub Email Subscription System
 
-A modern PHP-based email verification and subscription engine that delivers **real-time GitHub timeline updates** to verified subscribers every 5 minutes. Built with 🔒 secure OTP verification, 📩 HTML emails, and a fully functional ⚙️ CRON automation — all database-free.
-
----
-
-## 🌐 Live Flow
-
-> ✉️ Email ➜ 🔐 Verify OTP ➜ ✅ Subscribed ➜ 🔄 Every 5min GitHub Updates ➜ 🔗 Unsubscribe (with OTP)
+A powerful PHP-based email subscription platform where users register using email, receive a secure OTP, and start receiving GitHub timeline updates every 5 minutes via CRON-triggered HTML emails. Includes a smart unsubscribe mechanism, no DB, no frameworks — just clean, secure PHP magic.
 
 ---
 
-## 🔍 What Makes It Stand Out?
+## 📦 Project Structure
 
-- 📫 **End-to-end Email Flow**: OTP verification, Timeline delivery, Unsubscribe confirmation
-- 🔐 **No Database**: Pure file-based logic (`registered_emails.txt`)
-- 📅 **Automated Updates**: GitHub Timeline fetched & mailed via CRON every 5 minutes
-- 💎 **Minimal UI, Max Functionality**: Static visible forms (no conditional hiding) for testing ease
-- 📜 **One-click Unsub**: Verified by OTP again before removal
-- 🧠 **Submission-Safe**: No framework/library bloat (except PHPMailer)
+📁 src/
+├── index.php # Main form (email + OTP verification)
+├── subscribe.php # Handles email registration logic
+├── unsubscribe.php # Handles unsubscription flow
+├── cron.php # Sends GitHub updates every 5 mins
+├── setup_cron.sh # Registers the cron job
+├── functions.php # All logic & mailer functions
+├── registered_emails.txt # Flat file DB for verified emails
 
----
-
-## 📁 Directory Structure
-
-```bash
-src/
-├── index.php              # Main UI for subscribing and OTP verification
-├── unsubscribe.php        # Handles email opt-out via OTP
-├── subscribe.php          # Sends verification OTP
-├── verify.php             # Verifies OTP and registers email
-├── cron.php               # Sends timeline updates to verified users
-├── functions.php          # Core functional logic (mail, code gen, file ops)
-├── registered_emails.txt  # Email list database (text only)
-├── setup_cron.sh          # Automates CRON job setup
-└── PHPMailer/             # SMTP email handler
-
-💻 Setup & Run Instructions
-✅ Prerequisites
-PHP 8.x installed
-
-CRON enabled (for Linux users)
-
-Gmail App Password configured in functions.php
-
-Localhost running (XAMPP/WAMP)
-
-🔧 Setup
-bash
-Always show details
-
+yaml
 Copy
-# Clone or unzip the repository
-git clone https://github.com/yourusername/github-timeline-subscription.git
-cd src/
+Edit
 
-# Give permission and set up CRON
+---
+
+## ✨ Features
+
+- 🔐 Email OTP Verification (6-digit code via Gmail SMTP)
+- 📥 GitHub Timeline updates every 5 minutes (CRON)
+- 🧼 Clean Unsubscribe with email confirmation
+- 📄 Emails sent in HTML format
+- 🛠 Pure PHP — no frameworks, no DBs
+- 📜 Flat-file storage using `registered_emails.txt`
+- 🚫 No Mailhog — real emails via Gmail (App Password)
+
+---
+
+## 💻 Setup & Installation
+
+> ⚠️ Make sure PHP (≥8.0) and CRON are installed.  
+> Recommended to run on Linux/macOS or WSL for CRON compatibility.
+
+### ⬇️ Step 1: Clone or Download
+
+Or download as ZIP from the GitHub repo and extract it:
+
+Edit
+📦 Download ZIP → Extract → Open in VS Code / PHP server
+
+### 📁 Step 2: Configure PHPMailer
+Inside /src/functions.php, make sure these are correct:
+
+php
+Copy
+Edit
+$mail->Host = 'smtp.gmail.com';
+$mail->Username = 'your-email@gmail.com';
+$mail->Password = 'your-app-password'; // NOT your Gmail password
+$mail->setFrom('your-email@gmail.com', 'GitHub Email Bot');
+💡 Use Gmail App Passwords (go to your Google account > Security > App passwords)
+
+Make sure PHPMailer/ folder exists inside root directory.
+
+### ⚙️ Step 3: Start Localhost Server
+bash
+Copy
+Edit
+php -S localhost:8000 -t src
+Then open: http://localhost:8000
+
+## 🔄 CRON Job Setup
+🛠 Auto-Setup Script
+Just run the bash script provided:
+
+bash
+Copy
+Edit
+cd src
 chmod +x setup_cron.sh
 ./setup_cron.sh
-▶️ Run Locally
-bash
-Always show details
+This sets up a cron job that triggers cron.php every 5 minutes and sends timeline updates.
 
-Copy
-# Start local server
-php -S localhost:8000
 
-# Then open in browser
-http://localhost:8000
-📦 Download ZIP
-You can download the ready-to-run full source code ZIP here:
-
-🔗 Click to Download
-
-Or use:
-
-bash
-Always show details
-
-Copy
-wget https://github.com/yourusername/github-timeline-subscription/archive/refs/heads/main.zip
-unzip main.zip
-💌 Email Templates
-📥 OTP Email
-html
-Always show details
-
-Copy
-<p>Your verification code is: <strong>123456</strong></p>
-🔄 GitHub Update Email
-html
-Always show details
-
-Copy
-<h2>GitHub Timeline Updates</h2>
-<table border="1">
-  <tr><th>Event</th><th>User</th></tr>
-  <tr><td>Push</td><td>testuser</td></tr>
-</table>
-<p><a href="unsubscribe_url" id="unsubscribe-button">Unsubscribe</a></p>
-🗑️ Unsubscribe Code Email
-html
-Always show details
-
-Copy
-<p>To confirm unsubscription, use this code: <strong>654321</strong></p>
-🧠 Dev Notes
-✅ No DB used — just plain text files
-
-✅ Verified form structure for assignment submission
-
-✅ CRON fully working & testable
-
-✅ OTPs are 6-digit and securely session-tracked
 
